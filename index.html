@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Janmark</title>
+  <style>
+    .title {
+      text-align: center;
+      font-size: 50px;
+    }
+    .header {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+    .icon1 {
+      flex: 1;
+      display: flex;
+      justify-content: end;
+    }
+    .icon {
+      flex: 1;
+      display: flex;
+      justify-content: start;
+    }
+    .center {
+      flex: 2;
+    }
+    .search {
+      width: 100%;
+      height: 63px;
+      font-size: 30px;
+    }
+    .back-buttons,
+    .search-button {
+      flex: 1;
+      object-fit: contain;
+      height: 60px;
+      width: 60px;
+      cursor: pointer;
+    }
+
+    .select {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 100px;
+      height: 120px;
+    }
+    .items-img {
+      height: 100px;
+      width: 150px;
+      cursor: pointer;
+      object-fit: cover;
+    }
+    .items:hover {
+      border: 5px;
+      border-style: solid;
+    }
+
+    .display-item {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-around;
+      gap: 20px;
+      margin-top: 50px;
+    }
+    .products {
+     display: flex;
+     flex-direction: column;
+     align-items: center; 
+     gap: 10px;
+    }
+    .pro-img {
+      height: 300px;
+      width: 300px;
+    }
+    .pro-price {
+      font-size: 50px;
+      font-weight: bold;
+    }
+    
+    @media screen and (width < 500px) {
+      .items-img {
+        width: 100px;
+      }
+      
+    }
+  </style>
+</head>
+<body>
+  <p class="title">Janmark Shop</p>
+  <div class="header">
+    <div class="icon1">
+      <button onclick="
+        document.querySelector('.search').value = ''; 
+        searching('back')
+        "><img class="back-buttons" src="back-button.png" alt=""></button>
+    </div>
+    <div class="center">
+      <input class="search" type="text" placeholder="lee or fubu">
+    </div>
+    <div class="icon">
+      <button onclick=" 
+        let sr = document.querySelector('.search').value;
+        searching(sr)"><img class="search-button" src="search.png" alt=""></button>
+    </div>
+  </div>
+  <div class="select">
+    <div>
+      <button onclick="kind('short')" class="items"><img class="items-img" src="pants.png" alt=""></button>
+    </div>
+    <div>
+      <button onclick="kind('tshirt')" class="items"><img class="items-img" src="t-shirt.jpg" alt=""></button>
+    </div>
+    <div>
+      <button onclick="kind('jacket')" class="items"><img class="items-img" src="jacket.png" alt=""></button>
+    </div>
+  </div>
+  <div class="display-item"></div>
+  <script>
+
+    const brand = ["lee","fubu"]
+    const types = ["short","jacket","tshirt"]
+    const items_obj = {
+      short : {
+        lee : ["lee-short-1.jpg","lee-short-2.jpg","lee-short-3.jpg"],
+        fubu :["fubu-1.png","fubu-2.png","fubu-3.png"]
+      },
+      jacket : {
+        lee : ["lee-jacket-1.jpg","lee-jacket-2.jpg","lee-jacket-3.jpg"],
+        fubu : ["fubu-jacket-1.png","fubu-jacket-2.png","fubu-jacket-3.png"] 
+      },
+      tshirt: {
+        lee : ["lee-tshirt-1.jpg","lee-tshirt-2.jpg","lee-tshirt-3.jpg"],
+        fubu : ["fubu-tshirt-1.jpg","fubu-tshirt-2.jpg","fubu-tshirt-3.jpg"]
+      }
+    }
+    const prize = {
+      "lee-short-1.jpg" : "200",
+      "lee-short-2.jpg" : "200",
+      "lee-short-3.jpg" : "200",
+      "lee-jacket-1.jpg" : "350",
+      "lee-jacket-2.jpg" : "350",
+      "lee-jacket-3.jpg" : "350",
+      "lee-tshirt-1.jpg" : "300",
+      "lee-tshirt-2.jpg" : "300",
+      "lee-tshirt-3.jpg" : "300",
+      "fubu-1.png" : "250",
+      "fubu-2.png" : "250",
+      "fubu-3.png" : "250",
+      "fubu-jacket-1.png" : "400",
+      "fubu-jacket-2.png" : "400",
+      "fubu-jacket-3.png" : "400",
+      "fubu-tshirt-1.jpg" : "350",
+      "fubu-tshirt-2.jpg" : "350",
+      "fubu-tshirt-3.jpg" : "350"
+    }
+
+    let set = "";
+    for (let t = 0; t < types.length; t++) {
+      for (let b = 0; b < brand.length; b++ ) {
+        for (let s = 0; s < items_obj[types[t]][brand[b]].length; s++) {
+          let ans = items_obj[types[t]][brand[b]][s];
+          
+          set +=  `<div class="products">
+              <div>
+                <img class="pro-img" src="${ans}" alt="">
+              </div>
+              <div class="pro-price">
+                ${prize[ans]}
+              </div>
+            </div>` ;
+        }
+      }
+    }
+    document.querySelector('.display-item').innerHTML = set;
+
+    function searching(name) {
+      if (name === "lee" || name === "fubu") {
+        sets = "";
+        for (let i = 0; i < types.length; i++) {
+          for (let s = 0; s < items_obj[types[i]][name].length; s++) {
+            let sans = items_obj[types[i]][name][s];
+            sets +=  `<div class="products">
+                <div>
+                  <img class="pro-img" src="${sans}" alt="">
+                </div>
+                <div class="pro-price">
+                  ${prize[sans]}
+                </div>
+              </div>` ;
+          }
+        }
+        document.querySelector('.display-item').innerHTML = sets;
+      }else if (name === 'back') {
+        document.querySelector('.display-item').innerHTML = set;
+      }else {
+        document.querySelector('.display-item').innerHTML = set;
+      }
+    }
+  
+
+    function kind(pro) {
+      let set = ""
+      let src = document.querySelector('.search').value;
+      if (pro === "short" || pro === "jacket" || pro === "tshirt" ) {
+        if (src === "lee" || src === "fubu") {
+          set = "";
+          for (let pick = 0; pick < items_obj[pro][src].length; pick++) {
+            let sans = items_obj[pro][src][pick];
+            set +=  `<div class="products">
+                <div>
+                  <img class="pro-img" src="${sans}" alt="">
+                </div>
+                <div class="pro-price">
+                  ${prize[sans]}
+                </div>
+              </div>` ;
+          }
+          document.querySelector('.display-item').innerHTML = set;
+        }else {
+          set = ""; 
+          for (let b = 0; b < brand.length; b++) {
+            for (let t = 0; t < items_obj[pro][brand[b]].length; t++) {
+              let sans = items_obj[pro][brand[b]];
+              set +=  `<div class="products">
+                <div>
+                  <img class="pro-img" src="${sans[t]}" alt="">
+                </div>
+                <div class="pro-price">
+                  ${prize[sans[t]]}
+                </div>
+              </div>` ;
+            }
+          }
+          document.querySelector('.display-item').innerHTML = set;
+        }
+      }
+    }
+  </script>
+</body>
+</html>
